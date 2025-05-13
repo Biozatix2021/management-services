@@ -64,22 +64,21 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-md-3">
-                                <label for="service_date">Tanggal Perbaikan</label>
+                                <label for="service_start_date">Awal Perbaikan</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                     </div>
-                                    <input type="date" class="form-control" id="service_date" name="service_date" placeholder="Tanggal Perbaikan" required>
+                                    <input type="date" class="form-control" id="service_start_date" name="service_start_date" placeholder="Tanggal Perbaikan" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="service_duration">Lama Perbaikan</label>
-                                {{-- <input type="text" class="form-control" id="durasi_perbaikan" name="durasi_perbaikan" placeholder="Lama Perbaikan"> --}}
+                                <label for="service_end_date">Akhir Perbaikan</label>
                                 <div class="input-group mb-3">
-                                    <input type="number" class="form-control" id="service_duration" name="service_duration" placeholder="Lama Perbaikan" required>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">Hari</span>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                     </div>
+                                    <input type="date" class="form-control" id="service_end_date" name="service_end_date" placeholder="Tanggal Perbaikan" required>
                                 </div>
                             </div>
                             <div class="col-md-3">

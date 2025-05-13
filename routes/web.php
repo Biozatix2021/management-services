@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AlatController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUjiFungsiController;
 use App\Http\Controllers\GaransiController;
 use App\Http\Controllers\InstalasiAlatController;
@@ -23,16 +24,12 @@ Route::post('logout-auth', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware([Authenticate::class])->group(function () {
 
-    Route::get('/', function () {
-        $data = \App\Models\Pengaturan::first();
-        return view('welcome', [
-            'data' => $data,
-        ]);
-    });
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 
     // create me route login
 
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('alat', AlatController::class)->names('alat');
     Route::resource('teknisi', TeknisiController::class)->names('teknisi');

@@ -18,15 +18,13 @@ return new class extends Migration
             $table->string('no_seri', 50);
             $table->string('service_name', 100);
             $table->string('service_type', 50);
-            $table->date('service_date');
+            $table->date('service_start_date')->nullable();
+            $table->date('service_end_date')->nullable();
             $table->text('keluhan');
-            $table->string('service_description', 255)->nullable();
-            $table->string('service_price', 20);
-            $table->string('service_duration', 20);
-            $table->string('service_status', 20);
+            $table->text('service_description');
+            $table->boolean('service_status')->default(false);
             $table->foreignId('perusahaan_id')->constrained('perusahaans', 'id');
             $table->foreignId('teknisi_id')->constrained('teknisis', 'id');
-            $table->foreignId('rumah_sakit_id')->constrained('rumah_sakits', 'id');
             $table->boolean('is_deleted')->default(false);
             $table->string('created_by', 50);
             $table->timestamps();
@@ -42,7 +40,6 @@ return new class extends Migration
         Schema::create('foto_services', function (Blueprint $table) {
             $table->id();
             $table->string('service_code', 20);
-            $table->string('foto', 100);
             $table->string('path', 255);
             $table->timestamps();
         });

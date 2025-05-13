@@ -21,8 +21,4 @@ class LampiranServices extends Model
     {
         return asset('storage/' . $value);
     }
-    public function getLampiranNameAttribute($value)
-    {
-        return asset('storage/' . $value);
-    }
 }

@@ -40,8 +40,7 @@ class PerbaikanController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     $button = '<center>
-                                    <button type="button" class="btn btn-xs btn-block btn-primary" onclick="show_data(' . $data->id . ')">Show</button>
-                                    <button type="button" class="btn btn-danger btn-block btn-xs" onclick="delete_data(' . $data->id . ')">Delete</button>
+                                    <a href="' . route('services.show', encrypt($data->id)) . '" class="btn btn-info btn-block btn-xs" title="Detail" target="_blank">Detail</a>
                                 </center>';
                     return $button;
                 })
@@ -86,8 +85,6 @@ class PerbaikanController extends Controller
             'service_name' => 'required',
             'keluhan' => 'required',
             'service_description' => 'nullable',
-            'service_duration' => 'required',
-            'teknisi_id' => 'required',
         ];
 
         $messages = [
@@ -118,7 +115,8 @@ class PerbaikanController extends Controller
                 'no_seri' => $request->no_seri,
                 'service_name' => $request->service_name,
                 'service_type' => $request->service_type,
-                'service_date' => $request->service_date,
+                'service_start_date' => $request->service_start_date,
+                'service_end_date' => $request->service_end_date,
                 'keluhan' => $request->keluhan,
                 'service_description' => $request->service_description,
                 'service_duration' => $request->service_duration,
@@ -178,7 +176,16 @@ class PerbaikanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = Service::with('alat', 'teknisi', 'sparepart', 'foto_services', 'lampiran_services')->find(decrypt($id));
+        $foto = FotoServices::where('service_code', $data->service_code)->get();
+        $lampiran = LampiranServices::where('service_code', $data->service_code)->get();
+        // return $data;
+
+        return view('detail_services', [
+            'data'  => $data,
+            'foto'  => $foto,
+            'lampiran'  => $lampiran,
+        ]);
     }
 
     /**

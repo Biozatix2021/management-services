@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penjadwalan;
 use App\Models\teknisi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class PenjadwalanController extends Controller
@@ -128,6 +129,31 @@ class PenjadwalanController extends Controller
             'keterangan' => $request->keterangan,
             'status' => 0,
         ]);
+
+        $teknisi = teknisi::where('no_hp', $data->teknisi_id)->first();
+        // Send WhatsApp notification using Fonnte API
+        $apiKey = '8RezdZZbCYB6FQCHgaTk';
+        $phoneNumber = $teknisi; // Assuming the phone number is passed in the request
+        $message = "Jadwal baru telah dibuat:\n\n" .
+            "Title: {$request->title}\n" .
+            "Teknisi: {$request->teknisi}\n" .
+            "Start: {$request->start}\n" .
+            "End: {$request->end}\n" .
+            "Keterangan: {$request->keterangan}";
+
+        $response = Http::withHeaders([
+            'Authorization' => $apiKey,
+        ])->post('https://api.fonnte.com/send', [
+            'target' => $phoneNumber,
+            'message' => $message,
+            'countryCode' => '62', // Replace with the appropriate country code
+        ]);
+
+        if ($response->failed()) {
+            return response()->json(['success' => 0, 'text' => 'Data berhasil disimpan, tetapi gagal mengirim WhatsApp'], 500);
+        }
+
+
 
         return response()->json(['success' => 1, 'text' => 'Data berhasil disimpan'], 200);
     }

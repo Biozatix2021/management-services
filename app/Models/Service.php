@@ -16,10 +16,10 @@ class Service extends Model
         'service_date',
         'keluhan',
         'service_description',
-        'service_price',
-        'service_duration',
+        'service_start_date',
+        'service_end_date',
+        'service_status',
         'teknisi_id',
-        'rumah_sakit_id',
         'perusahaan_id',
         'created_by'
     ];
@@ -37,5 +37,19 @@ class Service extends Model
     public function rumahSakit()
     {
         return $this->belongsTo(rumah_sakit::class, 'rumah_sakit_id');
+    }
+
+    public function sparepart()
+    {
+        return $this->hasMany(ServicesSparepart::class, 'service_id');
+    }
+
+    public function foto_services()
+    {
+        return $this->hasMany(FotoServices::class, 'service_code', 'service_code');
+    }
+    public function lampiran_services()
+    {
+        return $this->hasMany(LampiranServices::class, 'service_code', 'service_code');
     }
 }
