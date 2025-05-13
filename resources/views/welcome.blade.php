@@ -121,11 +121,13 @@
             </div>
             <!-- /.card -->
         </div>
+        <div class="col-md-6">
+            <div id="map" style="min-height: 500px"></div>
+        </div>
     </div>
 @endsection
 
 @section('scripts')
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDihrFP8S13XvkEizeIa7YEaG6wSKNEHuo&callback=initMap"></script>
     <script>
         $(function() {
 
@@ -164,19 +166,27 @@
             calendar.render();
         });
 
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 4,
-                center: {
-                    lat: -25.363,
-                    lng: 131.044
-                }
-            });
-        }
+        var terinstal = {!! json_encode($location) !!};
+        console.log(terinstal);
 
-        $(function() {
-            // Initialize the map
-            initMap();
+        $(document).ready(function() {
+            $('#map').css('width', '100%');
+            $('#map').css('border-radius', '10px');
+            $('#map').css('overflow', 'hidden');
+        });
+
+
+        var map = L.map('map').setView([-1.7893, 113.9213], 5); // Set view to Indonesia's geographical center
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        var markers = [];
+        var markerGroup = L.layerGroup().addTo(map);
+        terinstal.forEach(function(item) {
+            var marker = L.marker([item.latitude, item.longitude]).addTo(markerGroup);
+            marker.bindPopup(item.name).openPopup();
+            markers.push(marker);
         });
     </script>
 @endsection

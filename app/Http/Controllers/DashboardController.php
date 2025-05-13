@@ -14,6 +14,8 @@ class DashboardController extends Controller
     public function index()
     {
 
+        // return session('role');
+
         $jadwal = Penjadwalan::all();
         $teknisi = teknisi::all();
         $data = Penjadwalan::with('teknisi')->get();
@@ -48,7 +50,7 @@ class DashboardController extends Controller
 
         $terinstal = [];
         foreach ($instalasi_alat as $row) {
-            $data_event[] = [
+            $terinstal[] = [
                 'name'  => $row->alat->merk,
                 'latitude' => $row->rumah_sakit->latitude,
                 'longitude' => $row->rumah_sakit->longitude,
@@ -76,7 +78,7 @@ class DashboardController extends Controller
         return view('welcome', [
             'instalasi_alat' => $instalasi_alat,
             'total_instalasi_alat' => $total_instalasi_alat,
-            'terinstal' => json_encode($terinstal),
+            'location' => $terinstal,
             'average_maintenance_duration' => $average_maintenance_duration,
             'teknisi' => $teknisis->count(),
             'teknisis' => $teknisis,
