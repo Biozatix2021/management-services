@@ -27,8 +27,18 @@ class PerbaikanController extends Controller
         $alat = Alat::all();
         $perusahaan = Perusahaan::all();
 
+        $session_Id = session('id');
+
         if ($request->ajax()) {
-            $data = Service::with('alat', 'teknisi')->get();
+            if (session('role') == 'teknisi' || session('role') == 'user') {
+                $data = Service::with('alat', 'teknisi')
+                    ->where('teknisi_id', $session_Id)
+                    ->get();
+            } elseif (session('role') == 'admin' || session('role') == 'manager' || session('role') == 'developer') {
+                $data = Service::with('alat', 'teknisi')->get();
+            } else {
+                $data = Service::with('alat', 'teknisi');
+            }
             return datatables()->of($data)
                 ->addIndexColumn()
                 ->addColumn('status', function ($data) {

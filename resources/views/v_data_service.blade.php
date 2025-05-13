@@ -40,7 +40,8 @@
                                     <th width="30">S/N</th>
                                     <th>Nama Alat</th>
                                     <th>Keluhan</th>
-                                    <th>Tanggal <br> Perbaikan</th>
+                                    <th>Awal <br> Perbaikan</th>
+                                    <th>Selesai <br> Perbaikan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -97,8 +98,18 @@
                     name: 'keluhan'
                 },
                 {
-                    data: 'service_date',
-                    name: 'service_date'
+                    data: 'service_start_date',
+                    name: 'service_start_date',
+                    render: function(data) {
+                        return moment(data).format('D MMMM YYYY');
+                    }
+                },
+                {
+                    data: 'service_end_date',
+                    name: 'service_end_date',
+                    render: function(data) {
+                        return moment(data).format('D MMMM YYYY');
+                    }
                 },
                 {
                     data: 'action',
