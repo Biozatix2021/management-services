@@ -27,7 +27,7 @@
         with font-awesome or any other icon font library -->
         @if (session('role') == 'admin' || session('role') == 'manager' || session('role') == 'developer')
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="/" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -164,14 +164,17 @@
                 </a>
             </li>
         @endif
-        <li class="nav-item">
-            <a href="/logout" class="nav-link">
-                <i class="nav-icon fas fa-sign-out-alt"></i>
-                <p>
-                    Logout
-                </p>
-            </a>
-        </li>
+        <form action="{{ route('logout') }}" method="post">
+            @csrf
+            <li class="nav-item">
+                <a href="" class="nav-link" type="submit">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Logout
+                    </p>
+                </a>
+            </li>
+        </form>
     </ul>
 </nav>
 <!-- /.sidebar-menu -->

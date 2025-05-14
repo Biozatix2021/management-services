@@ -110,6 +110,33 @@
         <i class="fas fa-expand-arrows-alt"></i>
     </a>
 </li>
+<li class="nav-item dropdown">
+    <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="fas fa-user"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <a href="#" class="dropdown-item">
+            <!-- Profile Start -->
+            <div class="media">
+                <img src="{{ asset('img/avatar.png') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                        User Profile
+                    </h3>
+                    <p class="text-sm text-muted">View and edit your profile</p>
+                </div>
+            </div>
+            <!-- Profile End -->
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="{{ route('logout') }}" class="dropdown-item dropdown-footer" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            Logout
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </div>
+</li>
 <li class="nav-item">
     <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
         <i class="fas fa-th-large"></i>

@@ -19,7 +19,10 @@ use App\Http\Controllers\TemplateUjiFungsiController;
 use App\Http\Middleware\Authenticate;
 
 Route::get('cek-auth', [AuthController::class, 'authenticate'])->name('cek-auth');
-Route::post('logout-auth', [AuthController::class, 'logout'])->name('logout');
+
+
+//Routes logout from auth controller
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware([Authenticate::class])->group(function () {
