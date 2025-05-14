@@ -72,21 +72,34 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
+                            <label for="fullday">Fullday</label>
+                            <select name="fullday" id="fullday" class="form-control" style="width: 100%; border-radius: 7px;">
+                                <option value="">Pilih Fullday</option>
+                                <option value="0">Tidak</option>
+                                <option value="1">Ya</option>
+                            </select>
+                        </div>
+                        <div class="form-group row">
                             <div class="col-md-6 " style="padding-right: 10px;">
                                 <label for="start">Start</label>
                                 <input type="datetime-local" class="form-control" id="start" name="start" placeholder="Masukkan Tanggal Mulai Acara">
                             </div>
-                            <div class="row" style="padding-right: 0px; padding-left: 10px;">
+                            <div class="col-md-6" style="padding-right: 0px; padding-left: 10px;">
                                 <label for="start">End</label>
                                 <input type="datetime-local" class="form-control" id="end" name="end" placeholder="Masukkan Tanggal Mulai Acara">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Masukkan Keterangan"></textarea>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="save_data()">Terapkan</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="save_data()">Simpan</button>
                 </div>
             </div>
         </div>
