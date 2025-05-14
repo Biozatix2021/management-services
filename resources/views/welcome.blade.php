@@ -17,67 +17,79 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>{{ $total_instalasi_alat }}</h3>
-
-                    <p>Alat Terinstal</p>
+    @if (session('role') == 'admin' || session('role') == 'developer' || session('title') == 'manager')
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info alert-dismissible">
+                    <h5><i class="icon fas fa-info"></i> Selamat Datang {{ session('name') }}</h5>
+                    Anda login sebagai {{ session('role') }}.
                 </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>{{ $average_maintenance_duration }}<sup style="font-size: 20px">Hari</sup></h3>
 
-                    <p>Rata-rata Durasi Perbaikan</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>{{ $teknisi }}</h3>
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{ $total_instalasi_alat }}</h3>
 
-                    <p>Tim Teknisi</p>
+                        <p>Alat Terinstal</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>{{ $rumah_sakit }}</h3>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{ $average_maintenance_duration }}<sup style="font-size: 20px">Hari</sup></h3>
 
-                    <p>Rumah Sakit</p>
+                        <p>Rata-rata Durasi Perbaikan</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <div class="icon">
-                    <i class="fas fa-hospital-alt"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ $teknisi }}</h3>
+
+                        <p>Tim Teknisi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{{ $rumah_sakit }}</h3>
+
+                        <p>Rumah Sakit</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-hospital-alt"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
         </div>
-        <!-- ./col -->
-    </div>
+    @endif
+
     <div class="row">
         <div class="col-md-6">
             <div class="card card-primary card-outline">
@@ -101,7 +113,6 @@
                         <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
                             @if (session('role') == 'user')
                                 <div style="display: flex; align-items: center;">
-                                    <span style="display: inline-block; width: 20px; height: 20px; background-color: #007bff; margin-right: 10px;"></span>
                                     <b>Jadwal Anda</b>
                                 </div>
                             @elseif (session('role') == 'admin' || session('role') == 'developer' || session('title') == 'manager')

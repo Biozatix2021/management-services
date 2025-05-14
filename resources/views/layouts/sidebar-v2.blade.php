@@ -80,12 +80,12 @@
                             <p>Template Uji Fungsi</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>SOP Pemeriksaan Alat</p>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
         @endif
@@ -164,17 +164,6 @@
                 </a>
             </li>
         @endif
-        <form action="{{ route('logout') }}" method="post">
-            @csrf
-            <li class="nav-item">
-                <a href="" class="nav-link" type="submit">
-                    <i class="nav-icon fas fa-sign-out-alt"></i>
-                    <p>
-                        Logout
-                    </p>
-                </a>
-            </li>
-        </form>
     </ul>
 </nav>
 <!-- /.sidebar-menu -->
