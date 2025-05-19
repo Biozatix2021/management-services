@@ -61,6 +61,7 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::resource('pengaturan', PengaturanController::class)->names('pengaturan');
     Route::get('download-qrcode/{id}', [InstalasiAlatController::class, 'download_qrcode'])->name('download-qrcode');
     Route::resource('services', PerbaikanController::class)->names('services');
+    Route::post('update-status-services/{id}', [PerbaikanController::class, 'update_status']);
 
     Route::get('get-uji-fungsi/{id}', [InstalasiAlatController::class, 'get_uji_fungsi'])->name('get-uji-fungsi');
 });

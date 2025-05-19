@@ -48,13 +48,43 @@ class PerbaikanController extends Controller
                         return '<span class="badge badge-success">Selesai</span>';
                     }
                 })
+                ->addColumn('service_status', function ($data) {
+                    if (session('role') == 'teknisi' || session('role') == 'user') {
+                        if ($data->service_status == 0) {
+                            return '<span class="badge badge-primary">On Process</span>';
+                        } else {
+                            return '<span class="badge badge-success">Selesai</span>';
+                        }
+                    } elseif (session('role') == 'admin' || session('role') == 'manager' || session('role') == 'developer') {
+                        if ($data->service_status == 0) {
+                            $status = '<form id="form-status' . $data->id . '" >';
+                            $status .= '<select class="form-control" name="service_status" id="service_status" onchange="updateStatus(' . $data->id . ')">';
+                            $status .= '<option value="0" ' . ($data->service_status == 0 ? 'selected' : '') . '>On Process</option>';
+                            $status .= '<option value="1" ' . ($data->service_status == 1 ? 'selected' : '') . '>Selesai</option>';
+                            $status .= '</select>';
+                            $status .= '</form>';
+
+                            return $status;
+                        } else {
+                            return '<span class="badge badge-success">Selesai</span>';
+                        }
+                    } elseif (session('role') == 'user') {
+                        if ($data->service_status == 0) {
+                            return '<span class="badge badge-primary">On Process</span>';
+                        } else {
+                            return '<span class="badge badge-success">Selesai</span>';
+                        }
+                    } else {
+                        # code...
+                    }
+                })
                 ->addColumn('action', function ($data) {
                     $button = '<center>
                                     <a href="' . route('services.show', encrypt($data->id)) . '" class="btn btn-info btn-block btn-xs" title="Detail" target="_blank">Detail</a>
                                 </center>';
                     return $button;
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['service_status', 'action'])
                 ->make(true);
         }
         return view('v_data_service', [
@@ -198,6 +228,18 @@ class PerbaikanController extends Controller
         ]);
     }
 
+    public function update_status(Request $request, string $id)
+    {
+
+        Service::where('id', $request->id)->update([
+            'service_status' => 1,
+        ]);
+        return response()->json([
+            'success' => 1,
+            'text' => 'Data Berhasil Diupdate',
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -209,10 +251,7 @@ class PerbaikanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, string $id) {}
 
     /**
      * Remove the specified resource from storage.

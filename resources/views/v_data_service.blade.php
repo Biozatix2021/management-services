@@ -37,11 +37,12 @@
                             <thead>
                                 <tr>
                                     <th width="10">No</th>
-                                    <th width="30">S/N</th>
+                                    <th width="30">Kode <br> Perbaikan</th>
                                     <th>Nama Alat</th>
                                     <th>Keluhan</th>
                                     <th>Awal <br> Perbaikan</th>
                                     <th>Selesai <br> Perbaikan</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -85,8 +86,8 @@
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'no_seri',
-                    name: 'no_seri'
+                    data: 'service_code',
+                    name: 'service_code'
                 },
                 {
                     data: function(row) {
@@ -112,6 +113,10 @@
                     }
                 },
                 {
+                    data: 'service_status',
+                    name: 'service_status',
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -119,5 +124,21 @@
                 }
             ]
         });
+
+        function updateStatus(id) {
+            $.ajax({
+                url: "update-status-services/" + id,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                    data: $('#form-status' + id).serialize(),
+                },
+                success: function(response) {
+                    alert('Status berhasil diubah');
+                    $('#tabelService').DataTable().ajax.reload();
+                }
+            });
+        }
     </script>
 @endsection
