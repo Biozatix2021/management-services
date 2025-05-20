@@ -25,7 +25,7 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library -->
-        @if ((session('role') == 'admin' && session('department') == 'teknisi') || session('role') == 'developer')
+        @if (session('role') == 'admin' && session('department') == 'teknisi')
             <li class="nav-item">
                 <a href="/" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -203,7 +203,7 @@
                 </ul>
             </li>
         @endif
-        @if (session('role') == 'developer')
+        @if (session('department') == 'IT')
             <li class="nav-item">
                 <a href="/" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -298,6 +298,12 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/quotation" class="nav-link {{ request()->is(['quotation']) ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>SPH</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="/services" class="nav-link {{ request()->is(['services', 'services/create']) ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>

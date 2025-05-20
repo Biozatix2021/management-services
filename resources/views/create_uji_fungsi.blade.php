@@ -124,6 +124,8 @@
                         </div>
                         <div class="form-group">
                             <label for="nama">Teknisi</label>
+                            <input type="text" name="teknisi" id="teknisi" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;"
+                                value="{{ session('id') }}" readonly>
                             <select name="teknisi" id="teknisi" class="form-control">
                                 <option value="" selected>Pilih Teknisi</option>
                                 @foreach ($teknisis as $teknisi)

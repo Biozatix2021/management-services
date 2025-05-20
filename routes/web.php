@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUjiFungsiController;
 use App\Http\Controllers\GaransiController;
 use App\Http\Controllers\InstalasiAlatController;
+use App\Http\Controllers\PenawaranController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PenjadwalanController;
 use App\Http\Controllers\PerbaikanController;
@@ -64,4 +65,7 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::post('update-status-services/{id}', [PerbaikanController::class, 'update_status']);
 
     Route::get('get-uji-fungsi/{id}', [InstalasiAlatController::class, 'get_uji_fungsi'])->name('get-uji-fungsi');
+
+    // route penawaran harga
+    Route::resource('quotation', PenawaranController::class)->names('quotation');
 });
