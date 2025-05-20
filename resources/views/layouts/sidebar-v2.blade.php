@@ -223,6 +223,12 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item ">
+                        <a href="/product" class="nav-link {{ request()->is('product') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Data Produk</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
                         <a href="/data-perusahaan" class="nav-link {{ request()->is('data-perusahaan') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Data Perusahaan</p>

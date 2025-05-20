@@ -30,10 +30,7 @@ $(function () {
 
   // input tipe number cant be negative or -
   $(document).on('input', 'input[type="number"]', function() {
-    if ($(this).val() < 1) {
-        $(this).val('');
-        $(this).val(1);
-    }
+    
 });
 
 

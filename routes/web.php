@@ -12,6 +12,7 @@ use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PenjadwalanController;
 use App\Http\Controllers\PerbaikanController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TeknisiController;
 use App\Http\Controllers\RumahSakitController;
 use App\Http\Controllers\SopAlatController;
@@ -68,4 +69,5 @@ Route::middleware([Authenticate::class])->group(function () {
 
     // route penawaran harga
     Route::resource('quotation', PenawaranController::class)->names('quotation');
+    Route::resource('product', ProdukController::class)->names('product');
 });
