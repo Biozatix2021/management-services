@@ -22,7 +22,7 @@ class PerusahaanController extends Controller
                 ->addColumn('action', function ($data) {
                     $button = '<center>
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-xs btn-danger" onclick="delete_data(' . $data->id . ')">Delete</button>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="delete_data(' . $data->id . ')"><i class="fas fa-trash"></i></button>
                                 </div></center>';
                     return $button;
                 })

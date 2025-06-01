@@ -6,8 +6,10 @@ use App\Models\Instalasi_Alat;
 use App\Models\Penjadwalan;
 use App\Models\rumah_sakit;
 use App\Models\Service;
+use App\Models\Stock;
 use App\Models\teknisi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -21,7 +23,9 @@ class DashboardController extends Controller
         $data = Penjadwalan::with('teknisi')->get();
 
         $events = Penjadwalan::with('teknisi')
-            ->where('teknisi_id', session('id'))
+            ->when(session('role') == 'teknisi', function ($query) {
+                return $query->where('teknisi_id', session('id'));
+            })
             ->get();
         $data_event = [];
 
@@ -51,7 +55,7 @@ class DashboardController extends Controller
         $terinstal = [];
         foreach ($instalasi_alat as $row) {
             $terinstal[] = [
-                'name'  => $row->alat->merk,
+                'name'  => $row->alat->brand,
                 'latitude' => $row->rumah_sakit->latitude,
                 'longitude' => $row->rumah_sakit->longitude,
                 'title' => $row->rumah_sakit->nama_rumah_sakit,
@@ -74,7 +78,13 @@ class DashboardController extends Controller
         $teknisis = teknisi::all();
 
         $rumah_sakit = rumah_sakit::count();
-        // return $average_maintenance_duration;
+
+        $lowStockItems = Stock::whereColumn('stock', '<=', 'low_stock_alert')
+            ->with('alat')
+            ->select('id', 'alat_id', 'stock', 'low_stock_alert')
+            ->get();
+
+        // return $lowStockItems;
         return view('welcome', [
             'instalasi_alat' => $instalasi_alat,
             'total_instalasi_alat' => $total_instalasi_alat,
@@ -84,6 +94,7 @@ class DashboardController extends Controller
             'teknisis' => $teknisis,
             'rumah_sakit' => $rumah_sakit,
             'data_event' => $data_event,
+            'lowStockItems' => $lowStockItems,
 
         ]);
     }

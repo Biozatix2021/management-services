@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('alats', function (Blueprint $table) {
             $table->id();
+            $table->string('catalog_number', 100);
             $table->string('nama', 100);
-            $table->string('merk', 100);
+            $table->string('brand', 100);
             $table->string('tipe', 100);
             $table->string('gambar', 100);
             $table->boolean('is_deleted')->default(false);

@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('foto_services', function (Blueprint $table) {
+        Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
-            $table->string('service_code', 20);
-            $table->string('path', 255);
+            $table->string('name', 100);
+            $table->string('contact_person', 100);
+            $table->string('phone', 13);
+            $table->boolean('status')->default(true);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('foto_services');
+        Schema::dropIfExists('warehouses');
     }
 };

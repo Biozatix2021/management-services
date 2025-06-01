@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('m_uji_fungsis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('alat_id');
-            $table->foreign('alat_id')->references('id')->on('alats')->onDelete('cascade');
+            $table->foreignId('alat_id')->constrained('alats');
             $table->text('item');
             $table->integer('qty');
             $table->string('satuan', 50);
@@ -25,16 +24,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('alat_id');
             $table->foreign('alat_id')->references('id')->on('alats')->onDelete('cascade');
-            $table->string('no_seri', 50);
-            $table->string('no_order', 50);
-            $table->string('no_faktur', 50);
-            $table->date('tgl_faktur');
-            $table->date('tgl_terima');
-            $table->date('tgl_selesai');
-            $table->text('keterangan');
+            $table->string('no_seri', 50)->nullable();
+            $table->string('no_order', 50)->nullable();
+            $table->string('no_faktur', 50)->nullable();
+            $table->date('tgl_faktur')->nullable();
+            $table->date('tgl_terima')->nullable();
+            $table->date('tgl_selesai')->nullable();
+            $table->text('keterangan')->nullable();
             $table->string('created_by_user_id', 20);
-            $table->unsignedBigInteger('id_teknisi');
-            $table->foreign('id_teknisi')->references('id')->on('teknisis');
+            $table->string('teknisi', 50);
             $table->string('status', 50);
             $table->boolean('is_deleted');
             $table->timestamps();
@@ -42,8 +40,7 @@ return new class extends Migration
 
         Schema::create('detail_uji_fungsis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('data_uji_fungsi_id');
-            $table->foreign('data_uji_fungsi_id')->references('id')->on('data_uji_fungsis')->onDelete('cascade');
+            $table->foreignId('data_uji_fungsi_id')->constrained('data_uji_fungsis')->onDelete('cascade');
             $table->string('item', 100);
             $table->integer('qty');
             $table->string('satuan', 50);

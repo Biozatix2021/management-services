@@ -44,19 +44,18 @@
                             <div class="form-group row">
                                 <div class="col-md-4">
                                     <label for="nama_alat">Nama Alat</label>
-                                    <select name="alat_Id" id="alat_Id" class="form-control select2bs4" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;"
-                                        onchange="getAlat(this.value)">
+                                    <select name="alat_Id" id="alat_Id" class="form-control select2bs4"
+                                        style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
                                         <option value="">Pilih Alat</option>
                                         @foreach ($alats as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->catalog_number }} - {{ $item->nama }} - {{ $item->tipe }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="sn">SN</label>
-                                    <select name="no_seri" id="no_seri" class="form-control">
-                                        <option value="">Anda Belum Memilih Alat</option>
-                                    </select>
+                                    <label for="nama">Nomor Seri</label>
+                                    <input type="text" class="form-control" id="inputNoSeri" name="no_seri" placeholder="Masukkan No Seri Alat">
+                                    <span class="help-block"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="status_instalasi">Status Instalasi</label>
@@ -255,8 +254,56 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $('.select2').select2()
+            $('#alat_Id').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Alat",
+                allowClear: true
+            });
         });
+
+        $('#inputNoSeri').on('input', function() {
+            clearTimeout($(this).data('timer'));
+            var wait = setTimeout(validateNoSeri, 500); // 500ms delay
+            $(this).data('timer', wait);
+        });
+
+        function validateNoSeri() {
+            var noSeri = $('#inputNoSeri').val();
+            if (noSeri.length > 0) {
+                $.ajax({
+                    url: "{{ route('validate-no-seri') }}",
+                    type: 'GET',
+                    data: {
+                        no_seri: noSeri
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response === true) {
+                            $('#inputNoSeri').removeClass('is-invalid').addClass('is-valid');
+                            $('#inputNoSeri').next('.help-block').removeClass('text-danger').addClass('text-success').text('Nomor seri valid.');
+                        } else if (response === false) {
+                            $('#inputNoSeri').removeClass('is-valid').addClass('is-invalid');
+                            $('#inputNoSeri').next('.help-block').addClass('text-danger').text('Nomor seri tidak valid.');
+                            Swal.fire({
+                                title: 'Nomor Seri Harus Sesuai Dengan Barang Dari Gudang',
+                                text: 'Silakan masukkan nomor seri yang benar.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            $('#inputNoSeri').removeClass('is-valid is-invalid');
+                            $('#inputNoSeri').next('.help-block').addClass('text-danger').text('Harap tunggu... Hubungi administrator jika masalah berlanjut.');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            } else {
+                $('#inputNoSeri').removeClass('is-valid is-invalid');
+                $('#inputNoSeri').next('.help-block').text('');
+            }
+        }
 
         // function previewImage(event) {
         //     var reader = new FileReader();

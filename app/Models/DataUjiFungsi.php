@@ -16,7 +16,7 @@ class DataUjiFungsi extends Model
         'tgl_terima',
         'tgl_selesai',
         'keterangan',
-        'id_teknisi',
+        'teknisi',
         'status',
         'is_deleted',
         'created_by_user_id'

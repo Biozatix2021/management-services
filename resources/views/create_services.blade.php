@@ -29,7 +29,6 @@
                 <form id="form-service" name="form-service" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
-                        <input type="text" name="" id="" value="{{ $code }}">
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <label for="nama_servis">Title</label>
@@ -39,7 +38,7 @@
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <label for="nama_alat">Nama Alat</label>
-                                <select name="alat_Id" id="alat_Id" class="form-control select2bs4" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;"
+                                <select name="alat_Id" id="alat_Id" class="form-control select2" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;"
                                     onchange="getAlat(this.value)">
                                     <option value="">Pilih Alat</option>
                                     @foreach ($alats as $item)
@@ -58,7 +57,7 @@
                                 <select name="service_type" id="service_type" class="form-control">
                                     <option value="">Pilih Tipe Perbaikan</option>
                                     <option value="Kumulatif Maintenance">Kumulatif Maintenance</option>
-                                    <option value="Preventif Maintenance">Preventif Maintenance</option>
+                                    <option value="Preventif Maintenance">Corrective Maintenance</option>
                                 </select>
                             </div>
                         </div>
@@ -243,6 +242,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+        });
+
+        $('#alat_Id').select2({
+            theme: 'bootstrap4',
+            placeholder: "Pilih Alat",
+            allowClear: true
         });
 
 

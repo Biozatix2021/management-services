@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lampiran_services', function (Blueprint $table) {
+        Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('service_code', 20);
-            $table->string('lampiran_name', 100);
-            $table->string('lampiran_path', 255);
+            $table->foreignId('alat_id')->constrained('alats')->onDelete('cascade');
+            $table->integer('stock')->default(0);
+            $table->string('unit', 50)->nullable();
+            $table->integer('low_stock_alert')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lampiran_services');
+        Schema::dropIfExists('stocks');
     }
 };

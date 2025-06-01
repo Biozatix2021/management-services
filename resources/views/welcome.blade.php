@@ -92,21 +92,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">Maps</h3>
-                    <div class="card-tools">
-                        <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
-                        <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div id="map" style="height: 400px;"></div>
-                </div>
-                <!-- /.card-body -->
-            </div>
-        </div>
-        <div class="col-md-6">
+
             <div class="card card-primary">
                 <div class="card-body p-3">
                     <div class="mb-3 text-center">
@@ -118,7 +104,7 @@
                             @elseif (session('role') == 'admin' || session('role') == 'developer' || session('title') == 'manager')
                                 @foreach ($teknisis as $item)
                                     <div style="display: flex; align-items: center;">
-                                        <span style="display: inline-block; width: 20px; height: 20px; background-color: {{ $item->color }}; margin-right: 10px;"></span>
+                                        <span style="display: inline-block; width: 20px; height: 10px; background-color: {{ $item->color }}; margin-right: 10px;"></span>
                                         <b>{{ $item->nama }}</b>
                                     </div>
                                 @endforeach
@@ -133,7 +119,53 @@
             <!-- /.card -->
         </div>
         <div class="col-md-6">
-            <div id="map" style="min-height: 500px"></div>
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Maps</h3>
+                    <div class="card-tools">
+                        <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
+                        <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="map" style="height: 350px;"></div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i> Low Stock Alert</h3>
+                    <div class="card-tools">
+                        <a href="{{ url('stock-alat') }}">View All</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="products-list product-list-in-card pl-2 pr-2">
+                        @foreach ($lowStockItems as $item)
+                            <li class="item">
+                                <div class="product-img">
+                                    <img src="/storage/alat/{{ $item->alat->gambar }}" alt="{{ $item->alat->gambar }}" class="img-size-50">
+                                </div>
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        {{ $item->alat->nama }}
+                                        <span class="float-right">
+                                            In Stock <br> {{ $item->stock }}
+                                        </span>
+                                    </a>
+                                    <span class="product-description">
+                                        #{{ $item->alat->catalog_number }}
+                                    </span>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
     </div>
 @endsection
@@ -147,9 +179,33 @@
 
             var calendar = new Calendar(calendarEl, {
                 headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    left: 'title',
+                    right: 'today,prev,next'
+                },
+                aspectRatio: 1,
+                height: '400px',
+                contentHeight: '100',
+                buttonText: {
+                    today: 'Today'
+                },
+                customButtons: {},
+                // Change button background color to #2c3e50 after render
+                viewDidMount: function() {
+                    setTimeout(function() {
+                        $('.fc-next-button, .fc-prev-button, .fc-today-button').css({
+                            'background-color': '#2c3e50',
+                            'border-color': '#2c3e50',
+                            'color': '#fff'
+                        });
+                        $('.fc-header-title').css({
+                            'color': '#2c3e50',
+                            'font-weight': 'bold'
+                        });
+                        $('.fc-header-toolbar, .fc-toolbar, .fc-toolbar-ltr').css({
+                            'margin-bottom': '0px',
+
+                        });
+                    }, 5);
                 },
                 themeSystem: 'bootstrap',
                 events: {!! json_encode($data_event) !!},

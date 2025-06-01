@@ -125,12 +125,7 @@
                         <div class="form-group">
                             <label for="nama">Teknisi</label>
                             <input type="text" name="teknisi" id="teknisi" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;"
-                                value="{{ session('id') }}" readonly>
-                            <select name="teknisi" id="teknisi" class="form-control">
-                                <option value="" selected>Pilih Teknisi</option>
-                                @foreach ($teknisis as $teknisi)
-                                    <option value="{{ $teknisi->id }}">{{ $teknisi->nama }}</option>
-                                @endforeach
+                                value="{{ session('name') }}" readonly>
                             </select>
                         </div>
                         <div class="form-group">
@@ -288,12 +283,22 @@
                         no_seri: noSeri
                     },
                     success: function(response) {
-                        if (response.success) {
+                        console.log(response);
+                        if (response === true) {
                             $('#inputNoSeri').removeClass('is-invalid').addClass('is-valid');
-                            $('#inputNoSeri').next('.help-block').text('Nomor seri valid.');
-                        } else {
+                            $('#inputNoSeri').next('.help-block').removeClass('text-danger').addClass('text-success').text('Nomor seri valid.');
+                        } else if (response === false) {
                             $('#inputNoSeri').removeClass('is-valid').addClass('is-invalid');
-                            $('#inputNoSeri').next('.help-block').text('Nomor seri sudah tersedia.');
+                            $('#inputNoSeri').next('.help-block').addClass('text-danger').text('Nomor seri tidak valid.');
+                            Swal.fire({
+                                title: 'Nomor Seri Harus Sesuai Dengan Barang Dari Gudang',
+                                text: 'Silakan masukkan nomor seri yang benar.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            $('#inputNoSeri').removeClass('is-valid is-invalid');
+                            $('#inputNoSeri').next('.help-block').addClass('text-danger').text('Harap tunggu... Hubungi administrator jika masalah berlanjut.');
                         }
                     },
                     error: function(xhr) {
@@ -351,7 +356,8 @@
                     }
                 },
                 error: function(xhr) {
-                    console.log(xhr.responseText);
+                    console.log(xhr.responseJSON.text);
+                    toastr.error(xhr.responseJSON.text);
 
                 }
             });

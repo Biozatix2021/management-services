@@ -205,7 +205,7 @@
                     console.log(data);
                     $('#detail-uji-fungsi').modal('show');
                     $('.img-alat').attr('src', '/storage/alat/' + data.alat.gambar);
-                    $('.nama-alat').text(data.alat.merk + ' ' + data.alat.tipe);
+                    $('.nama-alat').text(data.alat.brand + ' ' + data.alat.tipe);
                     $('.text-muted.text-center').text(data.alat.nama);
                     $('.no_seri').text(data.no_seri);
                     $('.no-order').text(data.no_order);
@@ -215,8 +215,9 @@
                     $('.tgl-selesai').text(data.tgl_selesai);
                     $('.status').html(data.status == 1 ? '<span class="badge badge-success">Qualified</span>' :
                         '<span class="badge badge-danger">Not Qualified</span>');
-                    $('.teknisi').text(data.teknisi.nama);
+                    $('.teknisi').text(data.teknisi);
                     $('.keterangan').text(data.keterangan);
+                    $('.btn[onclick="downloadData()"]').attr('onclick', 'downloadData(' + data.id + ')');
 
 
                     $.each(data.detail_uji_fungsi, function(index, item) {
@@ -343,5 +344,13 @@
                 },
             ]
         });
+
+        function downloadData(id) {
+            if (id) {
+                window.location.href = "{{ url('data-uji-fungsi/generate-pdf') }}/" + id;
+            } else {
+                alert('ID tidak ditemukan!');
+            }
+        }
     </script>
 @endsection

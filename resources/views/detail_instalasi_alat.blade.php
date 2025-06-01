@@ -172,7 +172,7 @@
 
                                             </div>
                                             <div class="timeline-footer">
-                                                <a href="#" class="btn btn-primary btn-sm">Read more</a>
+                                                <a href="{{ route('services.show', encrypt($data->id)) }}" class="btn btn-primary btn-sm">Read more</a>
                                             </div>
                                         </div>
                                     </div>
@@ -367,6 +367,11 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+            $('#alat_id').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Alat",
+                allowClear: true
             });
         });
 

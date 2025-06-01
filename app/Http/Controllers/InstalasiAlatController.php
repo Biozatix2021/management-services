@@ -59,7 +59,7 @@ class InstalasiAlatController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
                     $button = '<center>
-                                    <a href="' . route('instalasi-alat.show', encrypt($data->id)) . '" class="btn btn-info btn-block btn-sm" title="Detail" target="_blank">Detail</a>
+                                    <a href="' . route('instalasi-alat.show', encrypt($data->id)) . '" class="btn btn-info btn-block btn-sm" title="Detail" target="_blank"><i class="fas fa-search"></i></a>
                                 </center>';
                     return $button;
                 })

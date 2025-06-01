@@ -33,10 +33,10 @@
                             <div class="text-center">
                                 <div class="input-group" style="width: 50%; margin: 0 auto;">
                                     {{-- make select option --}}
-                                    <select id="filter" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
+                                    <select id="filter" class="form-control select2" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
                                         <option value="">Pilih Alat</option>
                                         @foreach ($alats as $alat)
-                                            <option value="{{ $alat->id }}">{{ $alat->merk }} {{ $alat->tipe }}</option>
+                                            <option value="{{ $alat->id }}">{{ $alat->brand }}- {{ $alat->nama }} - {{ $alat->tipe }}</option>
                                         @endforeach
                                     </select>
                                     <div class="input-group-btn">
@@ -83,10 +83,10 @@
                         @csrf
                         <div class="form-group">
                             <div id="input-container">
-                                <select class="form-control me-2" name="alat_id" id="alat_id" style="margin-bottom: 5px">
+                                <select class="form-control me-2 select2" name="alat_id" id="alat_id" style="margin-bottom: 5px">
                                     <option value="">Pilih Alat</option>
                                     @foreach ($alats as $alat)
-                                        <option value="{{ $alat->id }}">{{ $alat->merk }} {{ $alat->tipe }}</option>
+                                        <option value="{{ $alat->id }}">{{ $alat->brand }} {{ $alat->tipe }}</option>
                                     @endforeach
                                 </select>
                                 <hr>
@@ -130,6 +130,18 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+
+            $('#alat_id').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Alat",
+                allowClear: true
+            });
+
+            $('#filter').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Alat",
+                allowClear: true
             });
         });
 

@@ -91,7 +91,7 @@
                 },
                 {
                     data: function(row) {
-                        return row.alat.merk + ' ' + row.alat.nama;
+                        return row.alat.brand + ' ' + row.alat.nama + ' ' + row.alat.tipe;
                     },
                 },
                 {

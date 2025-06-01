@@ -16,9 +16,11 @@ class TemplateUjiFungsiController extends Controller
     public function index()
     {
         $filter = request('filter');
-        $alat = Alat::select('id', 'merk', 'nama', 'tipe')
+        $alat = Alat::select('id', 'brand', 'nama', 'tipe')
             ->where('is_deleted', 0)
             ->get();
+
+        // return $alat;
 
         if (request()->ajax()) {
             $data = M_Uji_Fungsi::where('alat_id', $filter)->get();

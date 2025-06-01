@@ -6,6 +6,7 @@ use App\Http\Controllers\AlatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUjiFungsiController;
 use App\Http\Controllers\GaransiController;
+use App\Http\Controllers\GudangController;
 use App\Http\Controllers\InstalasiAlatController;
 use App\Http\Controllers\PenawaranController;
 use App\Http\Controllers\PengaturanController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TeknisiController;
 use App\Http\Controllers\RumahSakitController;
 use App\Http\Controllers\SopAlatController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\TemplateUjiFungsiController;
 
 use App\Http\Middleware\Authenticate;
@@ -42,6 +44,7 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::resource('data-garansi', GaransiController::class)->names('data-garansi');
     Route::resource('sop-alat', SopAlatController::class)->names('sop-alat');
     Route::resource('data-uji-fungsi', DataUjiFungsiController::class)->names('data-uji-fungsi');
+    Route::get('data-uji-fungsi/generate-pdf/{id}', [DataUjiFungsiController::class, 'generatePdf'])->name('data-uji-fungsi.generate-pdf');
     Route::get('form-uji-fungsi', [DataUjiFungsiController::class, 'form_qc'])->name('form-qc');
     Route::get('validate-no-seri', [DataUjiFungsiController::class, 'validate_no_seri'])->name('validate-no-seri');
     Route::post('upload-foto-qc', [DataUjiFungsiController::class, 'upload_foto'])->name('upload-foto-qc');
@@ -49,7 +52,7 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::resource('template-uji-fungsi', TemplateUjiFungsiController::class)->names('template-uji-fungsi');
     Route::resource('instalasi-alat', InstalasiAlatController::class)->names('instalasi-alat');
     Route::get('get-alat/{id}', [InstalasiAlatController::class, 'get_alat'])->name('get-alat');
-    Route::get('data-perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
+    Route::resource('data-perusahaan', PerusahaanController::class)->names('perusahaan');
     Route::post('perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
     Route::delete('perusahaan/delete/{id}', [PerusahaanController::class, 'destroy'])->name('perusahaan.delete');
 
@@ -66,8 +69,11 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::post('update-status-services/{id}', [PerbaikanController::class, 'update_status']);
 
     Route::get('get-uji-fungsi/{id}', [InstalasiAlatController::class, 'get_uji_fungsi'])->name('get-uji-fungsi');
+    Route::resource('gudang', GudangController::class)->names('gudang');
 
-    // route penawaran harga
-    Route::resource('quotation', PenawaranController::class)->names('quotation');
-    Route::resource('product', ProdukController::class)->names('product');
+    Route::resource('stock-alat', StockController::class)->names('stock-alat');
+    Route::get('detail-stock', [StockController::class, 'detail_stock'])->name('detail-stock');
+    Route::get('stock-transfer', [StockController::class, 'stock_transfer'])->name('stock-transfer');
+    Route::post('stock-transfer/store', [StockController::class, 'stock_transfer_store'])->name('stock-transfer.store');
+    Route::get('search-alat', [StockController::class, 'search'])->name('search-alat');
 });

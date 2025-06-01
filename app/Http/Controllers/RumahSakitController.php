@@ -28,9 +28,9 @@ class RumahSakitController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     $button = '<center>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-xs btn-warning btn-block" onclick="edit_data(' . $data->id . ')">Edit</button>
-                                    <button type="button" class="btn btn-xs btn-danger btn-block" onclick="delete_data(' . $data->id . ')">Delete</button>
+                                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="edit_data(' . $data->id . ')"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="delete_data(' . $data->id . ')"><i class="fas fa-trash"></i></button>
                                 </div></center>';
                     return $button;
                 })

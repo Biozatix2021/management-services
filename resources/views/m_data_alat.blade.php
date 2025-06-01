@@ -37,7 +37,7 @@
                                     <th width="10px">No</th>
                                     <th>#</th>
                                     <th>Nama</th>
-                                    <th>Merk</th>
+                                    <th>Brand</th>
                                     <th>Type</th>
                                     <th width="50px">Aksi</th>
                                 </tr>
@@ -52,7 +52,7 @@
     </div><!-- /.row -->
     <!-- Modal Tambah Data Alat -->
     <div class="modal fade" id="tambah-data-alat" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
@@ -65,15 +65,21 @@
                         action="{{ route('alat.store') }}">
                         @csrf
                         <div class="form-group row">
+                            <label for="catalog_number" class="col-sm-2 col-form-label">No Catalog</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="catalog_number" name="catalog_number">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="inputNamaAlat" class="col-sm-2 col-form-label">Nama</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="inputNamaAlat" name="nama_alat">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputNamaAlat" class="col-sm-2 col-form-label">Merk</label>
+                            <label for="inputNamaAlat" class="col-sm-2 col-form-label">brand</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputMerkAlat" name="merk">
+                                <input type="text" class="form-control" id="inputbrandAlat" name="brand">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -116,6 +122,14 @@
             }
         });
 
+        $('#inputStokAwal').on('input', function() {
+            if ($(this).val().trim() !== '') {
+                $('#satuan').attr('required', true);
+            } else {
+                $('#satuan').removeAttr('required');
+            }
+        });
+
         function previewImage(event) {
             var reader = new FileReader();
             reader.onload = function() {
@@ -147,7 +161,6 @@
             ajax: {
                 url: "{{ route('alat.index') }}",
                 type: "GET",
-                data: function(data) {}
             },
             columns: [{
                     "data": null,
@@ -166,8 +179,8 @@
                     name: 'nama'
                 },
                 {
-                    data: 'merk',
-                    name: 'merk'
+                    data: 'brand',
+                    name: 'brand'
                 },
                 {
                     data: 'tipe',

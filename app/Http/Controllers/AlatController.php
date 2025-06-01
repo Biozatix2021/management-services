@@ -25,9 +25,8 @@ class AlatController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     $button = '<center>
-                                    <button type="button" class="btn btn-block btn-xs btn-primary" onclick="show_data(' . $data->id . ')">Lihat SOP</button>
-                                    <button type="button" class="btn btn-block btn-xs btn-danger" onclick="delete_data(' . $data->id . ')">Delete</button>
-                                </center>';
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="delete_data(' . $data->id . ')"><i class="fas fa-trash"></i></button>
+                               </center>';
                     return $button;
                 })
                 ->rawColumns(['gambar', 'action'])
@@ -54,14 +53,14 @@ class AlatController extends Controller
         // dd($request->all());
         $rules = [
             'nama_alat'              => 'required',
-            'merk'              => 'required',
+            'brand'              => 'required',
             'tipe'              => 'required',
             'gambar'            => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
 
         $text = [
             'nama.required' => 'Nama Alat Harus Diisi !',
-            'merk.required' => 'Merk Alat Harus Diisi !',
+            'brand.required' => 'Merk Alat Harus Diisi !',
             'tipe.required' => 'Type Alat Harus Diisi !',
             'gambar.required' => 'Anda belum memilih gambar !',
 
@@ -84,8 +83,9 @@ class AlatController extends Controller
 
         if ($path) {
             Alat::create([
+                'catalog_number' => $request->catalog_number,
                 'nama'          => $request->nama_alat,
-                'merk'          => $request->merk,
+                'brand'          => $request->brand,
                 'tipe'          => $request->tipe,
                 'gambar'        => $filename,
             ]);

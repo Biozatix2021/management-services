@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alat;
 use App\Models\Data_Uji_Fungsi;
 use App\Models\DataUjiFungsi;
+use App\Models\DetailStock;
 use App\Models\DetailUjiFungsi;
 use App\Models\M_Uji_Fungsi;
 use App\Models\teknisi;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Spatie\Browsershot\Browsershot;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class DataUjiFungsiController extends Controller
 {
@@ -24,7 +27,8 @@ class DataUjiFungsiController extends Controller
     public function index(Request $request)
     {
         $filter = request('filter');
-        $alat = Alat::select('id', 'merk', 'nama', 'tipe')->get();
+        $alat = Alat::select('id', 'brand', 'nama', 'tipe')->get();
+        // return $data;
         $template = M_Uji_Fungsi::select('id', 'item', 'qty', 'satuan')->get();
 
         if (request()->ajax()) {
@@ -56,7 +60,7 @@ class DataUjiFungsiController extends Controller
      */
     public function create(Request $request)
     {
-        $alat = Alat::select('id', 'merk', 'nama', 'tipe')
+        $alat = Alat::select('id', 'brand', 'nama', 'tipe')
             ->where('is_deleted', 0)
             ->get();
         $teknisi = teknisi::select('id', 'nama')->get();
@@ -72,7 +76,7 @@ class DataUjiFungsiController extends Controller
     {
         $alat_Id = request('alat_id');
         $teknisi = teknisi::select('id', 'nama')->get();
-        $alat = Alat::select('id', 'merk', 'nama', 'tipe')
+        $alat = Alat::select('id', 'brand', 'nama', 'tipe')
             ->where('id', $alat_Id)
             ->where('is_deleted', 0)
             ->get();
@@ -87,14 +91,32 @@ class DataUjiFungsiController extends Controller
         ]);
     }
 
+    public function generatePdf($id)
+    {
+        $data = DataUjiFungsi::with('detail_uji_fungsi', 'alat', 'user')->find($id);
+        if (!$data) {
+            return response()->json(['success' => 0, 'text' => 'Data tidak ditemukan'], 404);
+        }
+        $pdf = Pdf::view('pdf.uji_fungsi', [
+            'data' => $data,
+        ])->withBrowsershot(function (Browsershot $browsershot) {
+            $browsershot->setNodeBinary('C:/Program Files/nodejs/node')
+                ->setNpmBinary('C:/Program Files/nodejs/npm')
+                ->setChromePath("C:\Program Files\Google\Chrome\Application\chrome.exe")
+                ->newHeadless();
+        });
+
+        return $pdf->download('uji_fungsi_' . $data->id . '.pdf');
+    }
+
     public function validate_no_seri(Request $request)
     {
         $no_seri = request('no_seri');
-        $data = DataUjiFungsi::where('no_seri', $no_seri)->first();
+        $data = DetailStock::where('no_seri', $no_seri)->first();
         if ($data) {
-            return response()->json(['success' => 0, 'text' => 'No Seri sudah ada']);
+            return response()->json(true);
         } else {
-            return response()->json(['success' => 1, 'text' => 'No Seri belum ada']);
+            return response()->json(false);
         }
     }
 
@@ -150,7 +172,7 @@ class DataUjiFungsiController extends Controller
                 'tgl_terima' => date('Y-m-d', strtotime($request->tgl_terima)),
                 'tgl_selesai' => date('Y-m-d', strtotime($request->tgl_selesai)),
                 'status' => 1,
-                'id_teknisi' => $request->teknisi,
+                'teknisi' => $request->teknisi,
                 'keterangan' => $request->keterangan,
                 'is_deleted' => 0,
                 'created_by_user_id' => 2,
@@ -193,7 +215,7 @@ class DataUjiFungsiController extends Controller
     public function show(string $id)
     {
         // $data = DataUjiFungsi::find($id);
-        $data = DataUjiFungsi::with('detail_uji_fungsi', 'alat', 'teknisi', 'user')->find($id);
+        $data = DataUjiFungsi::with('detail_uji_fungsi', 'alat', 'user')->find($id);
         return response()->json($data);
     }
 

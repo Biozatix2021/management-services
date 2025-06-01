@@ -109,7 +109,6 @@ class PenjadwalanController extends Controller
             'end.required' => 'Tanggal selesai harus diisi',
             'end.date' => 'Format tanggal selesai tidak valid',
             'end.after_or_equal' => 'Tanggal selesai harus setelah atau sama dengan tanggal mulai',
-            'fullday.required' => 'Status full day harus diisi',
             'keterangan.required' => 'Keterangan harus diisi',
         ];
 

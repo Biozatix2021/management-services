@@ -99,9 +99,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="button" onclick="save_data()" class="btn btn-primary" id="btn-simpan"> <span class="spinner-border spinner-border-sm"
-                                role="status" aria-hidden="true"></span>Simpan</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fas fa-times"></i> Cancel</button>
+                        <button type="button" onclick="save_data()" class="btn btn-primary" id="btn-simpan"><i class="fas fa-save"></i> Save</button>
                     </div>
                 </form>
             </div>
@@ -125,10 +124,14 @@
             var reader = new FileReader();
             reader.onload = function() {
                 var output = document.getElementById('preview');
+
                 output.src = reader.result;
                 output.style.display = 'block';
             }
             reader.readAsDataURL(event.target.files[0]);
+
+            var fileName = event.target.files[0].name;
+            event.target.nextElementSibling.innerHTML = fileName;
         }
 
         table = $('#tabel-data-perusahaan').DataTable({
@@ -140,31 +143,33 @@
                 className: 'btn btn-primary btn-sm',
                 action: function(e, dt, node, config) {
                     $('#form-tambah-data-perusahaan')[0].reset();
+                    $('#preview').attr('src', '#');
+                    $('#preview').css('display', 'none');
+                    $('.custom-file-label').html('Choose file');
                     $('#tambah-data-perusahaan').modal('show');
                 }
             }],
-            ajax: "{{ route('perusahaan') }}",
+            ajax: "{{ route('perusahaan.index') }}",
             columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
+                    "data": null,
+                    "bDestroy": true,
+                    "sortable": false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1
+                    }
+                }, {
                     data: 'nama',
                     name: 'nama'
-                },
-                {
+                }, {
                     data: 'logo',
                     name: 'logo'
-                },
-                {
+                }, {
                     data: 'alamat',
                     name: 'alamat'
-                },
-                {
+                }, {
                     data: 'telp',
                     name: 'telp'
-                },
-                {
+                }, {
                     data: 'email',
                     name: 'email'
                 },
@@ -192,9 +197,21 @@
                 data: formData,
                 contentType: false,
                 processData: false,
+                beforeSend: function() {
+                    $('#btn-simpan').html('Saving ...');
+                    $('#btn-simpan').attr('disabled', true);
+                },
+                complete: function() {
+                    $('#btn-simpan').html('<i class="fas fa-save"></i> Save');
+                    $('#btn-simpan').attr('disabled', false);
+                    $('#form-tambah-data-perusahaan')[0].reset();
+                    $('#preview').attr('src', '#');
+                    $('#preview').css('display', 'none');
+                    $('.custom-file-label').html('Choose file');
+                    $('#tambah-data-perusahaan').modal('hide');
+                },
                 success: function(data) {
                     toastr.success('Data berhasil disimpan');
-                    $('#tambah-data-perusahaan').modal('hide');
                     table.ajax.reload();
                     $('#form-tambah-data-perusahaan')[0].reset();
                 },

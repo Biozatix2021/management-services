@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Alat extends Model
 {
     protected $table = 'alats';
-    protected $fillable = ['nama', 'merk', 'tipe', 'gambar'];
+    protected $fillable = [
+        'catalog_number',
+        'nama',
+        'brand',
+        'tipe',
+        'gambar',
+        'is_deleted'
+    ];
 
-    public function sop_alat()
+    public function stocks()
     {
-        return $this->hasMany(sop_alat::class);
+        return $this->hasMany(Stock::class);
     }
 }
